@@ -1,0 +1,6 @@
+{
+  "name": "Aaj Kya Banayein",
+  "description": "Bilingual meal planner, pantry ingredient matcher, recipe guide, and spin the wheel to decide what to cook.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
