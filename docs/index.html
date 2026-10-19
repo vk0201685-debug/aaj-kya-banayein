@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Aaj Kya Banayein / What to Cook - Daily Meal Planner & Recipe Guide</title>
+  <meta name="description" content="Decide what to cook with bilingual daily meal planner, pantry ingredient matcher, state & world famous foods, and spin the wheel.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍲</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Sticky Top Header -->
+  <header class="top-header">
+    <div class="header-container">
+      <div class="header-top-row">
+        <!-- Brand -->
+        <a href="#" class="brand-section" onclick="setTab('planner'); return false;">
+          <div class="brand-icon">🍲</div>
+          <div>
+            <div class="brand-title" id="app-title-text">आज क्या बनाएं</div>
+            <div class="brand-subtitle" id="app-subtitle-text">दैनिक भोजन योजना और आसान रेसिपी गाइड</div>
+          </div>
+        </a>
+
+        <!-- Header Actions: Download App & Bilingual Switch -->
+        <div class="header-actions">
+          <!-- Desktop Nav Links -->
+          <nav class="desktop-nav">
+            <button class="nav-link-btn active" data-tab="planner" onclick="setTab('planner')">📅 <span data-i18n="navPlanner">भोजन योजना</span></button>
+            <button class="nav-link-btn" data-tab="regional" onclick="setTab('regional')">🌍 <span data-i18n="navRegional">प्रसिद्ध स्वाद</span></button>
+            <button class="nav-link-btn" data-tab="pantry" onclick="setTab('pantry')">🧺 <span data-i18n="navPantry">रसोई सामग्री</span></button>
+            <button class="nav-link-btn" data-tab="spin" onclick="setTab('spin')">🎯 <span data-i18n="navSpin">पहिया घुमाएं</span></button>
+          </nav>
+
+          <!-- Download App Button -->
+          <a href="https://github.com/vk0201685-debug/aaj-kya-banayein/releases/download/v1.0.0/Aaj-Kya-Banayein-debug.apk" class="btn-download-app link-download-apk" target="_blank" rel="noopener">
+            <span>🤖</span>
+            <span id="btn-download-text">ऐप डाउनलोड करें</span>
+            <span class="apk-badge">APK</span>
+          </a>
+
+          <!-- Bilingual Toggle [EN | हिन्दी] -->
+          <div class="lang-toggle" onclick="setLanguage(state.lang === 'hi' ? 'en' : 'hi')" title="Toggle Language / भाषा बदलें">
+            <span class="lang-option" id="opt-en">EN</span>
+            <span class="lang-option active" id="opt-hi">हिन्दी</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cuisine Switcher Segmented Bar -->
+      <div class="cuisine-segmented-bar">
+        <button class="cuisine-btn active" id="btn-cuisine-indian" onclick="setCuisine('INDIAN')">
+          <span>🇮🇳</span> <span>भारतीय (देसी)</span>
+        </button>
+        <button class="cuisine-btn" id="btn-cuisine-continental" onclick="setCuisine('CONTINENTAL')">
+          <span>🌍</span> <span>कॉन्टिनेंटल (विदेशी)</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="main-wrapper">
+
+    <!-- App Download Showcase Banner (Visible on mobile and desktop) -->
+    <div class="app-download-banner">
+      <div class="app-banner-left">
+        <div class="app-banner-icon">📱</div>
+        <div class="app-banner-info">
+          <h4 id="banner-title-text">Android ऐप उपलब्ध है!</h4>
+          <p id="banner-sub-text">ऑफलाइन काम करता है, सुपर-फास्ट और बिना इंटरनेट रेसिपी देखें</p>
+        </div>
+      </div>
+      <a href="https://github.com/vk0201685-debug/aaj-kya-banayein/releases/download/v1.0.0/Aaj-Kya-Banayein-debug.apk" class="btn-banner-download link-download-apk" target="_blank" rel="noopener">
+        <span>⬇️</span>
+        <span id="banner-btn-text">Download APK (v1.0.0)</span>
+      </a>
+    </div>
+
+    <!-- ================= TAB 1: MEAL PLANNER ================= -->
+    <section id="tab-planner" class="tab-content active">
+      <!-- Hero Banner -->
+      <div class="hero-banner">
+        <div class="hero-content">
+          <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; opacity:0.85; margin-bottom:2px;" data-i18n="heroPlannerTitle">साप्ताहिक भोजन तालिका</div>
+          <h2 id="planner-hero-title">आज का भोजन मेनू</h2>
+          <p id="planner-hero-stats">3 Meals • ~1040 kcal • ~55 mins cooking</p>
+        </div>
+        <button class="btn-hero-action" onclick="shuffleFullWeek()">
+          <span>↻</span> <span data-i18n="shuffleWeek">पूरा सप्ताह बदलें</span>
+        </button>
+      </div>
+
+      <!-- Day Selector Pills -->
+      <div class="day-selector-scroll" id="planner-day-pills">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Meal Cards List (Breakfast, Lunch, Dinner) -->
+      <div class="meal-cards-list" id="planner-meal-cards">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Full Week Shuffle Bottom Button -->
+      <div style="margin-top:20px;">
+        <button class="btn-hero-action" style="width:100%; justify-content:center; background:var(--primary); color:white; border:none; padding:14px; font-size:0.95rem; border-radius:var(--radius-lg); box-shadow:var(--shadow-sm);" onclick="shuffleFullWeek()">
+          <span>↻</span> <span data-i18n="shuffleWeek">पूरा सप्ताह बदलें</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ================= TAB 2: REGIONAL FAMOUS FOOD ================= -->
+    <section id="tab-regional" class="tab-content">
+      <!-- Hero Banner -->
+      <div class="hero-banner" style="background:linear-gradient(135deg, #c2410c, #d97706);">
+        <div class="hero-content">
+          <h2 data-i18n="heroRegionalTitle">राज्य व विश्व प्रसिद्ध व्यंजन</h2>
+          <p data-i18n="heroRegionalDesc">विभिन्न राज्यों और देशों के प्रसिद्ध पारंपरिक व्यंजन</p>
+        </div>
+        <div style="font-size:32px;">🌍</div>
+      </div>
+
+      <!-- Sub-Mode Segmented Control (Indian States vs World Countries) -->
+      <div class="sub-segmented-control">
+        <button class="sub-seg-btn active" id="btn-reg-india" onclick="setRegionalMode('INDIAN_STATES')">
+          🇮🇳 <span data-i18n="indianStatesTab">भारतीय राज्य</span>
+        </button>
+        <button class="sub-seg-btn" id="btn-reg-world" onclick="setRegionalMode('WORLD_COUNTRIES')">
+          🌍 <span data-i18n="worldCountriesTab">दुनिया के देश</span>
+        </button>
+      </div>
+
+      <!-- Horizontal State / Country selector chips -->
+      <div class="region-items-scroll" id="regional-chips-scroll">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Active Region Showcase Header Card -->
+      <div class="region-showcase-card" id="regional-showcase-box">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Top 3 Famous Dishes List -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin:16px 0 10px;">
+        <h3 style="font-size:1.05rem; font-weight:800; color:var(--text-main);" data-i18n="topThreeDishes">🏆 शीर्ष 3 प्रसिद्ध व्यंजन</h3>
+        <span style="font-size:0.75rem; color:var(--text-muted);">टैप करके 4-स्टेप रेसिपी देखें</span>
+      </div>
+
+      <div class="famous-dishes-list" id="regional-dishes-list">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- ================= TAB 3: PANTRY MATCHER ================= -->
+    <section id="tab-pantry" class="tab-content">
+      <!-- Hero Banner -->
+      <div class="hero-banner" style="background:linear-gradient(135deg, #ea580c, #c2410c);">
+        <div class="hero-content">
+          <h2 data-i18n="heroPantryTitle">आपकी रसोई में क्या है?</h2>
+          <p data-i18n="heroPantryDesc">घर पर मौजूद सामग्री चुनें और मैचिंग रेसिपी पाएं</p>
+        </div>
+        <div style="font-size:32px;">🧺</div>
+      </div>
+
+      <!-- Search Input -->
+      <div class="pantry-search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="pantry-search-input" class="pantry-search-input" placeholder="सामग्री खोजें...">
+      </div>
+
+      <!-- Actions Bar (Selected Count + Presets) -->
+      <div class="pantry-actions-bar">
+        <span class="selected-count-badge" id="pantry-selected-count">6 सामग्री चुनी गई</span>
+        <div class="pantry-quick-btns">
+          <button class="btn-pill-action primary" onclick="selectEssentials()" data-i18n="selectEssentials">ज़रूरी सामग्री चुनें</button>
+          <button class="btn-pill-action" onclick="clearAllIngredients()" data-i18n="clearAll">सभी हटाएं</button>
+        </div>
+      </div>
+
+      <!-- Ingredient Chips by Category -->
+      <div id="pantry-categories-container">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Matched Recipes Section -->
+      <div class="matched-results-header">
+        <h3 style="font-size:1.1rem; font-weight:800; color:var(--text-main);" data-i18n="matchedDishes">🍳 आप ये व्यंजन बना सकते हैं</h3>
+      </div>
+      <div id="pantry-matched-cards">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- ================= TAB 4: SPIN THE WHEEL ================= -->
+    <section id="tab-spin" class="tab-content">
+      <!-- Hero Banner -->
+      <div class="hero-banner" style="background:linear-gradient(135deg, #d97706, #ea580c);">
+        <div class="hero-content">
+          <h2 data-i18n="heroSpinTitle">समझ नहीं आ रहा क्या बनाएं?</h2>
+          <p data-i18n="heroSpinDesc">पहिया घुमाएं और अपनी पसंद का फैसला छोड़ दें किस्मत पर!</p>
+        </div>
+        <div style="font-size:32px;">🎯</div>
+      </div>
+
+      <div class="wheel-container">
+        <!-- Meal Filter Tabs -->
+        <div class="wheel-filter-row">
+          <button class="wheel-filter-btn active" data-filter="all" onclick="setSpinFilter(null)" data-i18n="filterAll">सभी भोजन</button>
+          <button class="wheel-filter-btn" data-filter="BREAKFAST" onclick="setSpinFilter('BREAKFAST')">🌅 <span data-i18n="breakfast">नाश्ता</span></button>
+          <button class="wheel-filter-btn" data-filter="LUNCH" onclick="setSpinFilter('LUNCH')">☀️ <span data-i18n="lunch">दोपहर</span></button>
+          <button class="wheel-filter-btn" data-filter="DINNER" onclick="setSpinFilter('DINNER')">🌙 <span data-i18n="dinner">रात</span></button>
+        </div>
+
+        <!-- The Interactive Wheel Canvas -->
+        <div class="canvas-wheel-box">
+          <div class="wheel-pointer"></div>
+          <canvas id="wheelCanvas" width="310" height="310"></canvas>
+          <div class="wheel-center-cap">🍽️</div>
+        </div>
+
+        <!-- Spin Button -->
+        <button id="btn-spin-wheel" class="btn-spin-wheel" onclick="spinWheel()">
+          <span>🎯</span> <span data-i18n="spinButton">पहिया घुमाएं</span>
+        </button>
+
+        <!-- Winner Card Output -->
+        <div id="spin-winner-card" class="spin-winner-card">
+          <!-- Rendered on spin finish -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Recipe Details Modal Sheet -->
+  <div id="recipe-modal" class="modal-overlay">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <span style="font-size:0.8rem; font-weight:700; color:var(--primary); text-transform:uppercase;">Quick Recipe Guide</span>
+        <button class="btn-close-modal" onclick="closeRecipeModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modal-recipe-content">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="bottom-nav-bar">
+    <button class="bottom-nav-item active" data-tab="planner" onclick="setTab('planner')">
+      <span class="nav-icon">📅</span>
+      <span data-i18n="navPlanner">भोजन योजना</span>
+    </button>
+    <button class="bottom-nav-item" data-tab="regional" onclick="setTab('regional')">
+      <span class="nav-icon">🌍</span>
+      <span data-i18n="navRegional">प्रसिद्ध स्वाद</span>
+    </button>
+    <button class="bottom-nav-item" data-tab="pantry" onclick="setTab('pantry')">
+      <span class="nav-icon">🧺</span>
+      <span data-i18n="navPantry">रसोई सामग्री</span>
+    </button>
+    <button class="bottom-nav-item" data-tab="spin" onclick="setTab('spin')">
+      <span class="nav-icon">🎯</span>
+      <span data-i18n="navSpin">पहिया घुमाएं</span>
+    </button>
+  </nav>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>🍲 <strong>Aaj Kya Banayein (What to Cook)</strong> • Bilingual Cooking Companion</p>
+    <p style="margin-top:6px;">
+      <a href="https://github.com/vk0201685-debug/aaj-kya-banayein/releases/download/v1.0.0/Aaj-Kya-Banayein-debug.apk" class="link-download-apk" style="color:var(--primary); font-weight:700; text-decoration:none;">
+        📱 Download Android APK
+      </a>
+    </p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
