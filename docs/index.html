@@ -1,213 +1,427 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Aaj Kya Banayein / What to Cook - Daily Meal Planner & Recipe Guide</title>
-  <meta name="description" content="Decide what to cook with bilingual daily meal planner, pantry ingredient matcher, state & world famous foods, and spin the wheel.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍲</text></svg>">
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  
+  <!-- GOOGLE SEO & SEARCH CONSOLE TAGS -->
+  <title>आज क्या बनाएं - Daily Meal Planner & Recipe Wheel</title>
+  <meta name="description" content="रोज़ क्या पकाएं की चिंता खत्म! भोजन योजना, 4-स्टेप स्वादिष्ट रेसिपी, रसोई सामग्री से व्यंजन और भाग्य पहिया।" />
+  <meta name="keywords" content="aaj kya banayein, indian recipes, meal planner hindi, spin the wheel cooking, daily khana recipes" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="आज क्या बनाएं - Aaj Kya Banayein" />
+  <meta property="og:description" content="रसोई में क्या बनाएं? पहिया घुमाएं, सामग्री चुनें और पाएं आसान 4-स्टेप रेसिपी।" />
+  <meta property="og:type" content="website" />
+
+  <style>
+    :root {
+      --primary: #ea580c;
+      --primary-dark: #c2410c;
+      --primary-bg: #fff7ed;
+      --bg: #fcf8f2;
+      --card-bg: #ffffff;
+      --text: #26211f;
+      --text-muted: #7c726c;
+      --border: #f0e6dd;
+      --badge-yellow: #fef3c7;
+      --badge-text-yellow: #92400e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: #2b2623; display: flex; justify-content: center; min-height: 100vh; }
+
+    .app-viewport {
+      width: 100%;
+      max-width: 430px;
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 0 25px rgba(0,0,0,0.3);
+      padding-bottom: 78px;
+    }
+
+    /* TOP BAR */
+    .top-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 18px 8px 18px; background: var(--bg);
+    }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-icon {
+      width: 40px; height: 40px; background: var(--primary); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;
+    }
+    .brand-title { font-size: 18px; font-weight: 800; color: var(--text); }
+    .brand-sub { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+    .top-actions { display: flex; gap: 6px; align-items: center; }
+    .btn-apk-top {
+      background: #059669; color: white; border: none; border-radius: 16px;
+      padding: 5px 10px; font-size: 11.5px; font-weight: 700; cursor: pointer; text-decoration: none;
+    }
+    .lang-pill {
+      background: var(--primary); color: white; border-radius: 16px;
+      padding: 4px 10px; font-size: 11.5px; font-weight: 700; border: none; cursor: pointer;
+    }
+
+    /* CUISINE FILTER TABS */
+    .cuisine-bar { display: flex; gap: 8px; padding: 6px 18px 12px 18px; }
+    .cuisine-btn {
+      flex: 1; padding: 8px; border-radius: 20px; border: none; font-size: 12.5px;
+      font-weight: 700; background: #eee5dc; color: #665e58; cursor: pointer;
+    }
+    .cuisine-btn.active { background: #fff; color: var(--text); box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+
+    /* TAB CONTENT WRAPPER */
+    .tab-view { display: none; padding: 0 16px 20px 16px; }
+    .tab-view.active { display: block; }
+
+    /* COMPACT DOWNLOAD BANNER (SIRF FIRST SCREEN PAR) */
+    .apk-notice {
+      background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 16px;
+      padding: 10px 14px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .apk-notice-text { font-size: 12px; color: #065f46; font-weight: 600; }
+    .apk-notice-btn {
+      background: #059669; color: white; border: none; border-radius: 12px;
+      padding: 6px 12px; font-size: 11.5px; font-weight: 700; cursor: pointer; text-decoration: none;
+    }
+
+    /* ORANGE HERO BANNERS */
+    .hero-banner {
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      color: white; border-radius: 20px; padding: 18px; margin-bottom: 14px; position: relative;
+    }
+    .hero-tag { font-size: 12px; color: #fed7aa; font-weight: 700; margin-bottom: 4px; }
+    .hero-title { font-size: 20px; font-weight: 800; }
+    .hero-sub { font-size: 12px; opacity: 0.9; margin-top: 6px; }
+    .hero-btn {
+      position: absolute; right: 16px; top: 22px; background: rgba(255,255,255,0.22);
+      border: none; color: white; border-radius: 14px; padding: 6px 12px; font-size: 12px; font-weight: 700; cursor: pointer;
+    }
+
+    /* DAY PILLS */
+    .day-selector { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 4px; }
+    .day-pill {
+      flex: 1; min-width: 50px; background: #fff; border: 1px solid var(--border);
+      border-radius: 16px; padding: 8px 4px; text-align: center; font-size: 12px; font-weight: 700; color: #555; cursor: pointer;
+    }
+    .day-pill.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+    /* RECIPE CARDS */
+    .card {
+      background: var(--card-bg); border-radius: 18px; padding: 15px; margin-bottom: 12px;
+      border: 1px solid var(--border); box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .meal-tag { background: #fef3c7; color: #b45309; padding: 4px 10px; border-radius: 10px; font-size: 11.5px; font-weight: 700; }
+    .refresh-icon { background: none; border: none; font-size: 16px; cursor: pointer; color: var(--primary); }
+    .card-body { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
+    .dish-img {
+      width: 52px; height: 52px; background: #fff4ed; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0;
+    }
+    .dish-name { font-size: 15.5px; font-weight: 800; color: var(--text); }
+    .dish-desc { font-size: 12px; color: var(--text-muted); line-height: 1.35; margin-top: 3px; }
+    .card-foot {
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px dashed #f0e6dd; padding-top: 10px; font-size: 12px;
+    }
+    .link-steps { color: var(--primary); font-weight: 700; text-decoration: none; cursor: pointer; }
+
+    /* TAB 2: REGIONAL CUISINES */
+    .sub-toggle { display: flex; gap: 8px; margin-bottom: 12px; }
+    .sub-btn {
+      flex: 1; padding: 8px; border-radius: 14px; border: 1px solid var(--border);
+      background: white; font-size: 12.5px; font-weight: 700; cursor: pointer;
+    }
+    .sub-btn.active { background: #fff; border-color: var(--primary); color: var(--primary); }
+    .horizontal-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; }
+    .h-chip {
+      background: white; border: 1px solid var(--border); border-radius: 20px;
+      padding: 7px 14px; font-size: 12.5px; font-weight: 700; white-space: nowrap; cursor: pointer;
+    }
+    .h-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+    /* TAB 3: PANTRY CHIPS & SEARCH */
+    .search-input {
+      width: 100%; padding: 10px 14px; border-radius: 14px; border: 1px solid var(--border);
+      margin-bottom: 10px; font-size: 13px; outline: none; background: #fff;
+    }
+    .pantry-cat { font-size: 13px; font-weight: 800; margin: 12px 0 8px 0; color: #443c39; }
+    .pantry-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .p-chip {
+      background: white; border: 1px solid var(--border); border-radius: 16px;
+      padding: 7px 12px; font-size: 12px; font-weight: 600; cursor: pointer;
+    }
+    .p-chip.checked { background: var(--primary); color: white; border-color: var(--primary); }
+    .badge-percent {
+      background: #fef3c7; color: #b45309; padding: 4px 8px; border-radius: 8px; font-size: 12px; font-weight: 800;
+    }
+
+    /* TAB 4: WHEEL SECTION */
+    .wheel-wrap { display: flex; flex-direction: column; align-items: center; margin-top: 10px; position: relative; }
+    .pointer {
+      width: 0; height: 0;
+      border-left: 14px solid transparent; border-right: 14px solid transparent;
+      border-top: 22px solid #b91c1c; margin-bottom: -12px; z-index: 10;
+    }
+    #spinCanvas {
+      border-radius: 50%; box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+      background: #fdf6ec; display: block;
+    }
+    .spin-btn {
+      width: 100%; background: var(--primary); color: white; border: none;
+      border-radius: 14px; padding: 14px; font-size: 16px; font-weight: 800; margin-top: 16px; cursor: pointer;
+      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
+    }
+
+    /* STICKY BOTTOM NAV */
+    .bottom-bar {
+      position: fixed; bottom: 0; width: 100%; max-width: 430px;
+      background: #fffcf8; border-top: 1px solid #eee4da;
+      display: flex; justify-content: space-around; padding: 8px 0 10px 0; z-index: 100;
+    }
+    .nav-btn {
+      background: none; border: none; display: flex; flex-direction: column;
+      align-items: center; gap: 3px; color: #8c827c; font-size: 11px; font-weight: 600; cursor: pointer;
+    }
+    .nav-btn.active { color: var(--primary); font-weight: 800; }
+    .nav-btn span:first-child { font-size: 19px; }
+
+    /* MODAL BOTTOM SHEET */
+    .modal {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      z-index: 200; justify-content: center; align-items: flex-end;
+    }
+    .modal-sheet {
+      background: white; width: 100%; max-width: 430px; border-radius: 24px 24px 0 0;
+      padding: 22px 18px; max-height: 85vh; overflow-y: auto; position: relative; animation: slideUp 0.22s ease-out;
+    }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .modal-close {
+      position: absolute; right: 16px; top: 16px; width: 32px; height: 32px;
+      border-radius: 50%; border: none; background: #f3ede7; font-size: 15px; cursor: pointer;
+    }
+    .step-box {
+      display: flex; gap: 12px; background: #fffdfa; border: 1px solid var(--border);
+      border-radius: 14px; padding: 12px; margin-bottom: 8px;
+    }
+    .step-badge {
+      width: 26px; height: 26px; border-radius: 50%; background: var(--primary);
+      color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; flex-shrink: 0;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Sticky Top Header -->
-  <header class="top-header">
-    <div class="header-container">
-      <div class="header-top-row">
-        <!-- Brand -->
-        <a href="#" class="brand-section" onclick="setTab('planner'); return false;">
-          <div class="brand-icon">🍲</div>
-          <div>
-            <div class="brand-title" id="app-title-text">आज क्या बनाएं</div>
-            <div class="brand-subtitle" id="app-subtitle-text">दैनिक भोजन योजना और आसान रेसिपी गाइड</div>
-          </div>
-        </a>
+<div class="app-viewport">
 
-        <!-- Header Actions: Download App & Bilingual Switch -->
-        <div class="header-actions">
-          <!-- Desktop Nav Links -->
-          <nav class="desktop-nav">
-            <button class="nav-link-btn active" data-tab="planner" onclick="setTab('planner')">📅 <span data-i18n="navPlanner">भोजन योजना</span></button>
-            <button class="nav-link-btn" data-tab="regional" onclick="setTab('regional')">🌍 <span data-i18n="navRegional">प्रसिद्ध स्वाद</span></button>
-            <button class="nav-link-btn" data-tab="pantry" onclick="setTab('pantry')">🧺 <span data-i18n="navPantry">रसोई सामग्री</span></button>
-            <button class="nav-link-btn" data-tab="spin" onclick="setTab('spin')">🎯 <span data-i18n="navSpin">पहिया घुमाएं</span></button>
-          </nav>
-
-          <!-- Download App Button -->
-          <a href="https://github.com/vk0201685-debug/aaj-kya-banayein/releases/download/v1.0.0/Aaj-Kya-Banayein-debug.apk" class="btn-download-app link-download-apk" target="_blank" rel="noopener">
-            <span>🤖</span>
-            <span id="btn-download-text">ऐप डाउनलोड करें</span>
-            <span class="apk-badge">APK</span>
-          </a>
-
-          <!-- Bilingual Toggle [EN | हिन्दी] -->
-          <div class="lang-toggle" onclick="setLanguage(state.lang === 'hi' ? 'en' : 'hi')" title="Toggle Language / भाषा बदलें">
-            <span class="lang-option" id="opt-en">EN</span>
-            <span class="lang-option active" id="opt-hi">हिन्दी</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Cuisine Switcher Segmented Bar -->
-      <div class="cuisine-segmented-bar">
-        <button class="cuisine-btn active" id="btn-cuisine-indian" onclick="setCuisine('INDIAN')">
-          <span>🇮🇳</span> <span>भारतीय (देसी)</span>
-        </button>
-        <button class="cuisine-btn" id="btn-cuisine-continental" onclick="setCuisine('CONTINENTAL')">
-          <span>🌍</span> <span>कॉन्टिनेंटल (विदेशी)</span>
-        </button>
+  <!-- TOP HEADER -->
+  <div class="top-bar">
+    <div class="brand">
+      <div class="brand-icon">🍴</div>
+      <div>
+        <div class="brand-title">आज क्या बनाएं</div>
+        <div class="brand-sub">आज क्या पकाएं?</div>
       </div>
     </div>
-  </header>
+    <div class="top-actions">
+      <a href="#" class="btn-apk-top">🤖 ऐप पाएं</a>
+      <button class="lang-pill">EN / हिन्दी</button>
+    </div>
+  </div>
 
-  <!-- Main Content Container -->
-  <main class="main-wrapper">
+  <!-- CUISINE FILTER -->
+  <div class="cuisine-bar">
+    <button class="cuisine-btn active" onclick="setCuisineFilter(this, 'desi')">🇮🇳 भारतीय (देसी)</button>
+    <button class="cuisine-btn" onclick="setCuisineFilter(this, 'foreign')">🌍 कॉन्टिनेंटल (विदेशी)</button>
+  </div>
 
-    <!-- App Download Showcase Banner (Visible on mobile and desktop) -->
-    <div class="app-download-banner">
-      <div class="app-banner-left">
-        <div class="app-banner-icon">📱</div>
-        <div class="app-banner-info">
-          <h4 id="banner-title-text">Android ऐप उपलब्ध है!</h4>
-          <p id="banner-sub-text">ऑफलाइन काम करता है, सुपर-फास्ट और बिना इंटरनेट रेसिपी देखें</p>
-        </div>
-      </div>
-      <a href="https://github.com/vk0201685-debug/aaj-kya-banayein/releases/download/v1.0.0/Aaj-Kya-Banayein-debug.apk" class="btn-banner-download link-download-apk" target="_blank" rel="noopener">
-        <span>⬇️</span>
-        <span id="banner-btn-text">Download APK (v1.0.0)</span>
-      </a>
+  <!-- ================= TAB 1: MEAL PLANNER ================= -->
+  <div class="tab-view active" id="tab-plan">
+    <!-- Sirf Home par chhota compact APK notice -->
+    <div class="apk-notice">
+      <div class="apk-notice-text">📲 बिना इंटरनेट रेसिपी के लिए ऐप उपलब्ध है</div>
+      <a href="#" class="apk-notice-btn">APK (v1.0)</a>
     </div>
 
-    <!-- ================= TAB 1: MEAL PLANNER ================= -->
-    <section id="tab-planner" class="tab-content active">
-      <!-- Hero Banner -->
-      <div class="hero-banner">
-        <div class="hero-content">
-          <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; opacity:0.85; margin-bottom:2px;" data-i18n="heroPlannerTitle">साप्ताहिक भोजन तालिका</div>
-          <h2 id="planner-hero-title">आज का भोजन मेनू</h2>
-          <p id="planner-hero-stats">3 Meals • ~1040 kcal • ~55 mins cooking</p>
-        </div>
-        <button class="btn-hero-action" onclick="shuffleFullWeek()">
-          <span>↻</span> <span data-i18n="shuffleWeek">पूरा सप्ताह बदलें</span>
-        </button>
-      </div>
+    <div class="hero-banner">
+      <div class="hero-tag">✨ आज का भोजन मेनू</div>
+      <div class="hero-title" id="today-day-title">बुधवार • भारतीय (देसी)</div>
+      <div class="hero-sub">कुल 3 भोजन • ~780 kcal • 75 मिनट</div>
+      <button class="hero-btn" onclick="shuffleDay()">🔀 बदलें</button>
+    </div>
 
-      <!-- Day Selector Pills -->
-      <div class="day-selector-scroll" id="planner-day-pills">
-        <!-- Rendered dynamically -->
-      </div>
+    <div class="day-selector">
+      <div class="day-pill" onclick="selectDay(this, 'सोमवार')">सोम</div>
+      <div class="day-pill" onclick="selectDay(this, 'मंगलवार')">मंगल</div>
+      <div class="day-pill active" onclick="selectDay(this, 'बुधवार')">बुध •</div>
+      <div class="day-pill" onclick="selectDay(this, 'गुरुवार')">गुरु</div>
+      <div class="day-pill" onclick="selectDay(this, 'शुक्रवार')">शुक्र</div>
+      <div class="day-pill" onclick="selectDay(this, 'शनिवार')">शनि</div>
+    </div>
 
-      <!-- Meal Cards List (Breakfast, Lunch, Dinner) -->
-      <div class="meal-cards-list" id="planner-meal-cards">
-        <!-- Rendered dynamically -->
-      </div>
+    <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px;">
+      <span style="font-weight: 800;">भोजन तालिका (3 समय)</span>
+      <span style="color: var(--text-muted);">टैप करके स्टेप्स देखें</span>
+    </div>
 
-      <!-- Full Week Shuffle Bottom Button -->
-      <div style="margin-top:20px;">
-        <button class="btn-hero-action" style="width:100%; justify-content:center; background:var(--primary); color:white; border:none; padding:14px; font-size:0.95rem; border-radius:var(--radius-lg); box-shadow:var(--shadow-sm);" onclick="shuffleFullWeek()">
-          <span>↻</span> <span data-i18n="shuffleWeek">पूरा सप्ताह बदलें</span>
-        </button>
+    <!-- Breakfast -->
+    <div class="card">
+      <div class="card-head">
+        <span class="meal-tag">🌅 नाश्ता</span>
+        <button class="refresh-icon" onclick="rerollCard('breakfast')">🔄</button>
       </div>
-    </section>
-
-    <!-- ================= TAB 2: REGIONAL FAMOUS FOOD ================= -->
-    <section id="tab-regional" class="tab-content">
-      <!-- Hero Banner -->
-      <div class="hero-banner" style="background:linear-gradient(135deg, #c2410c, #d97706);">
-        <div class="hero-content">
-          <h2 data-i18n="heroRegionalTitle">राज्य व विश्व प्रसिद्ध व्यंजन</h2>
-          <p data-i18n="heroRegionalDesc">विभिन्न राज्यों और देशों के प्रसिद्ध पारंपरिक व्यंजन</p>
-        </div>
-        <div style="font-size:32px;">🌍</div>
-      </div>
-
-      <!-- Sub-Mode Segmented Control (Indian States vs World Countries) -->
-      <div class="sub-segmented-control">
-        <button class="sub-seg-btn active" id="btn-reg-india" onclick="setRegionalMode('INDIAN_STATES')">
-          🇮🇳 <span data-i18n="indianStatesTab">भारतीय राज्य</span>
-        </button>
-        <button class="sub-seg-btn" id="btn-reg-world" onclick="setRegionalMode('WORLD_COUNTRIES')">
-          🌍 <span data-i18n="worldCountriesTab">दुनिया के देश</span>
-        </button>
-      </div>
-
-      <!-- Horizontal State / Country selector chips -->
-      <div class="region-items-scroll" id="regional-chips-scroll">
-        <!-- Rendered dynamically -->
-      </div>
-
-      <!-- Active Region Showcase Header Card -->
-      <div class="region-showcase-card" id="regional-showcase-box">
-        <!-- Rendered dynamically -->
-      </div>
-
-      <!-- Top 3 Famous Dishes List -->
-      <div style="display:flex; justify-content:space-between; align-items:center; margin:16px 0 10px;">
-        <h3 style="font-size:1.05rem; font-weight:800; color:var(--text-main);" data-i18n="topThreeDishes">🏆 शीर्ष 3 प्रसिद्ध व्यंजन</h3>
-        <span style="font-size:0.75rem; color:var(--text-muted);">टैप करके 4-स्टेप रेसिपी देखें</span>
-      </div>
-
-      <div class="famous-dishes-list" id="regional-dishes-list">
-        <!-- Rendered dynamically -->
-      </div>
-    </section>
-
-    <!-- ================= TAB 3: PANTRY MATCHER ================= -->
-    <section id="tab-pantry" class="tab-content">
-      <!-- Hero Banner -->
-      <div class="hero-banner" style="background:linear-gradient(135deg, #ea580c, #c2410c);">
-        <div class="hero-content">
-          <h2 data-i18n="heroPantryTitle">आपकी रसोई में क्या है?</h2>
-          <p data-i18n="heroPantryDesc">घर पर मौजूद सामग्री चुनें और मैचिंग रेसिपी पाएं</p>
-        </div>
-        <div style="font-size:32px;">🧺</div>
-      </div>
-
-      <!-- Search Input -->
-      <div class="pantry-search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="pantry-search-input" class="pantry-search-input" placeholder="सामग्री खोजें...">
-      </div>
-
-      <!-- Actions Bar (Selected Count + Presets) -->
-      <div class="pantry-actions-bar">
-        <span class="selected-count-badge" id="pantry-selected-count">6 सामग्री चुनी गई</span>
-        <div class="pantry-quick-btns">
-          <button class="btn-pill-action primary" onclick="selectEssentials()" data-i18n="selectEssentials">ज़रूरी सामग्री चुनें</button>
-          <button class="btn-pill-action" onclick="clearAllIngredients()" data-i18n="clearAll">सभी हटाएं</button>
+      <div class="card-body">
+        <div class="dish-img" id="b-icon">🥞</div>
+        <div>
+          <div class="dish-name" id="b-title">कुरकुरा बेसन चीला</div>
+          <div class="dish-desc" id="b-desc">प्याज़, टमाटर और मसालों से भरपूर पौष्टिक, झटपट और स्वादिष्ट बेसन चीला।</div>
         </div>
       </div>
-
-      <!-- Ingredient Chips by Category -->
-      <div id="pantry-categories-container">
-        <!-- Rendered dynamically -->
+      <div class="card-foot">
+        <span id="b-meta">⏱️ 20 मिनट • ~210 kcal</span>
+        <span class="link-steps" onclick="openRecipeById('chilla')">4-स्टेप रेसिपी देखें →</span>
       </div>
+    </div>
 
-      <!-- Matched Recipes Section -->
-      <div class="matched-results-header">
-        <h3 style="font-size:1.1rem; font-weight:800; color:var(--text-main);" data-i18n="matchedDishes">🍳 आप ये व्यंजन बना सकते हैं</h3>
+    <!-- Lunch -->
+    <div class="card">
+      <div class="card-head">
+        <span class="meal-tag" style="background: #ffedd5; color: #c2410c;">☀️ दोपहर का खाना</span>
+        <button class="refresh-icon" onclick="rerollCard('lunch')">🔄</button>
       </div>
-      <div id="pantry-matched-cards">
-        <!-- Rendered dynamically -->
-      </div>
-    </section>
-
-    <!-- ================= TAB 4: SPIN THE WHEEL ================= -->
-    <section id="tab-spin" class="tab-content">
-      <!-- Hero Banner -->
-      <div class="hero-banner" style="background:linear-gradient(135deg, #d97706, #ea580c);">
-        <div class="hero-content">
-          <h2 data-i18n="heroSpinTitle">समझ नहीं आ रहा क्या बनाएं?</h2>
-          <p data-i18n="heroSpinDesc">पहिया घुमाएं और अपनी पसंद का फैसला छोड़ दें किस्मत पर!</p>
+      <div class="card-body">
+        <div class="dish-img" id="l-icon">🥬</div>
+        <div>
+          <div class="dish-name" id="l-title">पालक पनीर</div>
+          <div class="dish-desc" id="l-desc">ताज़ा हरी पालक की ग्रेवी और मसालों में पकाया गया स्वादिष्ट व पौष्टिक पनीर।</div>
         </div>
-        <div style="font-size:32px;">🎯</div>
       </div>
+      <div class="card-foot">
+        <span id="l-meta">⏱️ 30 मिनट • ~310 kcal</span>
+        <span class="link-steps" onclick="openRecipeById('palak_paneer')">4-स्टेप रेसिपी देखें →</span>
+      </div>
+    </div>
 
-      <div class="wheel-container">
-        <!-- Meal Filter Tabs -->
-        <div class="wheel-filter-row">
-          <button class="wheel-filter-btn active" data-filter="all" onclick="setSpinFilter(null)" data-i18n="filterAll">सभी भोजन</button>
-          <button class="wheel-filter-btn" data-filter="BREAKFAST" onclick="setSpinFilter('BREAKFAST')">🌅 <span data-i18n="breakfast">नाश्ता</span></button>
+    <!-- Dinner -->
+    <div class="card">
+      <div class="card-head">
+        <span class="meal-tag" style="background: #f1f5f9; color: #334155;">🌙 रात का खाना</span>
+        <button class="refresh-icon" onclick="rerollCard('dinner')">🔄</button>
+      </div>
+      <div class="card-body">
+        <div class="dish-img" id="d-icon">🍲</div>
+        <div>
+          <div class="dish-name" id="d-title">दाल तड़का और जीरा राइस</div>
+          <div class="dish-desc" id="d-desc">लहसुन, जीरा और हींग के तड़के वाली अरहर दाल और सुगंधित जीरा राइस।</div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <span id="d-meta">⏱️ 30 मिनट • ~290 kcal</span>
+        <span class="link-steps" onclick="openRecipeById('dal_tadka')">4-स्टेप रेसिपी देखें →</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= TAB 2: FAMOUS CUISINES ================= -->
+  <div class="tab-view" id="tab-famous">
+    <div class="hero-banner">
+      <div class="hero-title" style="font-size: 18px;">राज्य व विश्व प्रसिद्ध व्यंजन</div>
+      <div class="hero-sub">विभिन्न राज्यों और देशों के प्रसिद्ध पारंपरिक व्यंजन</div>
+    </div>
+
+    <div class="sub-toggle">
+      <button class="sub-btn active" id="btn-ind" onclick="setRegionMode('india')">🇮🇳 भारतीय राज्य</button>
+      <button class="sub-btn" id="btn-world" onclick="setRegionMode('world')">🌍 दुनिया के देश</button>
+    </div>
+
+    <div class="horizontal-chips" id="region-chips">
+      <!-- Injected via JS -->
+    </div>
+
+    <div class="card" style="display: flex; gap: 14px; align-items: center;">
+      <div class="dish-img" id="reg-hero-icon">🌾</div>
+      <div>
+        <div class="dish-name" id="reg-hero-name">पंजाब</div>
+        <div class="dish-desc" id="reg-hero-desc">मक्खन, मलाई और ज़ायकेदार उत्तर भारतीय स्वाद।</div>
+      </div>
+    </div>
+
+    <div style="font-size: 13px; font-weight: 800; margin: 14px 0 8px 0;">🏆 शीर्ष 3 प्रसिद्ध व्यंजन</div>
+    <div id="famous-dish-list">
+      <!-- Injected via JS -->
+    </div>
+  </div>
+
+  <!-- ================= TAB 3: PANTRY MATCHER ================= -->
+  <div class="tab-view" id="tab-pantry">
+    <div class="hero-banner" style="margin-bottom: 12px; padding: 14px 16px;">
+      <div class="hero-title" style="font-size: 17px;">आपकी रसोई में क्या है?</div>
+      <div class="hero-sub">घर पर मौजूद सामग्री चुनें और मैचिंग रेसिपी पाएं</div>
+    </div>
+
+    <input type="text" class="search-input" placeholder="🔍 सामग्री खोजें..." onkeyup="filterPantry(this.value)" />
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+      <span style="font-size: 12.5px; font-weight: 800; color: var(--primary);" id="pantry-count-badge">6 सामग्री चुनी गईं</span>
+      <button onclick="clearPantry()" style="background:none; border:none; color:var(--text-muted); font-size:12px; font-weight:700; cursor:pointer;">सभी हटाएं</button>
+    </div>
+
+    <div class="pantry-cat">🌾 अनाज व दालें</div>
+    <div class="pantry-grid" id="pantry-grains">
+      <span class="p-chip checked" onclick="toggleIng(this, 'आटा')">🌾 गेहूं का आटा ✓</span>
+      <span class="p-chip" onclick="toggleIng(this, 'चावल')">🍚 बासमती चावल</span>
+      <span class="p-chip" onclick="toggleIng(this, 'पोहा')">🥣 पोहा</span>
+      <span class="p-chip" onclick="toggleIng(this, 'बेसन')">🌾 बेसन</span>
+      <span class="p-chip" onclick="toggleIng(this, 'दाल')">🍲 अरहर दाल</span>
+      <span class="p-chip" onclick="toggleIng(this, 'छोले')">🧆 काबुली चने</span>
+      <span class="p-chip" onclick="toggleIng(this, 'राजमा')">🫘 राजमा</span>
+    </div>
+
+    <div class="pantry-cat">🥬 सब्जियां</div>
+    <div class="pantry-grid" id="pantry-veg">
+      <span class="p-chip checked" onclick="toggleIng(this, 'प्याज़')">🧅 प्याज़ ✓</span>
+      <span class="p-chip checked" onclick="toggleIng(this, 'टमाटर')">🍅 टमाटर ✓</span>
+      <span class="p-chip checked" onclick="toggleIng(this, 'आलू')">🥔 आलू ✓</span>
+      <span class="p-chip checked" onclick="toggleIng(this, 'अदरक-लहसुन')">🧄 अदरक-लहसुन ✓</span>
+      <span class="p-chip checked" onclick="toggleIng(this, 'हरी मिर्च')">🌶️ हरी मिर्च ✓</span>
+      <span class="p-chip" onclick="toggleIng(this, 'पालक')">🥬 ताजा पालक</span>
+      <span class="p-chip" onclick="toggleIng(this, 'पनीर')">🧀 पनीर</span>
+      <span class="p-chip" onclick="toggleIng(this, 'मक्खन')">🧈 मक्खन / घी</span>
+    </div>
+
+    <div style="font-size: 14px; font-weight: 800; margin: 18px 0 10px 0;">🍳 आप ये व्यंजन बना सकते हैं</div>
+    <div id="pantry-results">
+      <!-- Live Matched Cards Loaded by JS -->
+    </div>
+  </div>
+
+  <!-- ================= TAB 4: SPIN THE WHEEL ================= -->
+  <div class="tab-view" id="tab-wheel">
+    <div class="hero-banner" style="padding: 12px 16px; margin-bottom: 10px;">
+      <div class="hero-title" style="font-size: 16px;">समझ नहीं आ रहा क्या बनाएं?</div>
+      <div class="hero-sub">पहिया घुमाएं और अपनी पसंद का फैसला छोड़ दें किस्मत पर!</div>
+    </div>
+
+    <div class="day-selector" style="margin-bottom: 8px;">
+      <div class="day-pill active" onclick="setWheelMeal(this, 'all')">सभी भोजन</div>
+      <div class="day-pill" onclick="setWheelMeal(this, 'breakfast')">🌅 नाश्ता</div>
+      <div class="day-pill" onclick="setWheelMeal(this, 'lunch')">☀️ दोपहर</div>
+      <div class="day-pill" onclick="setWheelMeal(this, 'dinner')">🌙 रात</div>
+    </div>
+
+    <div class="wheel-wrap">
+      <div class="pointer"></div>
+      <canvas id="spinCanvas" width="280" height="280"></canvas>
+      <button class="spin-btn" id="spinBtn" onclick="spinWheelAction()">🎲 पहिया घुमाएं</button>
+    </div>
+
+    <div class="card" style="margin-top: 18px; text-align: center;">
+      <span class="meal-tag" style="display: inline-block; margin-bottom: 8px;">✨ आज का खास व्यंजन!</span>
+      <div class="dish-img" style="margin: 0 auto 8px auto; width: 62px; height: 62px; font-size: 32px;" id="wheel-card-icon">🍲</div>
+      <div class="dish-name" id="wheel-card-title">AKFAST" onclick="setSpinFilter('BREAKFAST')">🌅 <span data-i18n="breakfast">नाश्ता</span></button>
           <button class="wheel-filter-btn" data-filter="LUNCH" onclick="setSpinFilter('LUNCH')">☀️ <span data-i18n="lunch">दोपहर</span></button>
           <button class="wheel-filter-btn" data-filter="DINNER" onclick="setSpinFilter('DINNER')">🌙 <span data-i18n="dinner">रात</span></button>
         </div>
