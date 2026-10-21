@@ -3,49 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>आज क्या बनाएं - Aaj Kya Banayein</title>
   
-  <!-- GOOGLE SEO & SEARCH CONSOLE TAGS -->
-  <title>आज क्या बनाएं - Daily Meal Planner & Recipe Wheel</title>
-  <meta name="description" content="रोज़ क्या पकाएं की चिंता खत्म! भोजन योजना, 4-स्टेप स्वादिष्ट रेसिपी, रसोई सामग्री से व्यंजन और भाग्य पहिया।" />
-  <meta name="keywords" content="aaj kya banayein, indian recipes, meal planner hindi, spin the wheel cooking, daily khana recipes" />
-  <meta name="robots" content="index, follow" />
-  <meta property="og:title" content="आज क्या बनाएं - Aaj Kya Banayein" />
-  <meta property="og:description" content="रसोई में क्या बनाएं? पहिया घुमाएं, सामग्री चुनें और पाएं आसान 4-स्टेप रेसिपी।" />
-  <meta property="og:type" content="website" />
-
   <style>
     :root {
       --primary: #ea580c;
       --primary-dark: #c2410c;
-      --primary-bg: #fff7ed;
       --bg: #fcf8f2;
-      --card-bg: #ffffff;
+      --card: #ffffff;
       --text: #26211f;
-      --text-muted: #7c726c;
+      --muted: #7c726c;
       --border: #f0e6dd;
-      --badge-yellow: #fef3c7;
-      --badge-text-yellow: #92400e;
+      --pill-bg: #f4ece4;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: #2b2623; display: flex; justify-content: center; min-height: 100vh; }
+    body { background-color: #201b18; display: flex; justify-content: center; min-height: 100vh; }
 
-    .app-viewport {
+    /* Main Container */
+    .viewport {
       width: 100%;
       max-width: 430px;
       background: var(--bg);
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
       position: relative;
-      box-shadow: 0 0 25px rgba(0,0,0,0.3);
-      padding-bottom: 78px;
+      padding-bottom: 84px; /* Space for sticky nav */
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
     }
 
-    /* TOP BAR */
+    /* Top Bar */
     .top-bar {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 18px 8px 18px; background: var(--bg);
+      padding: 14px 16px 8px 16px;
     }
     .brand { display: flex; align-items: center; gap: 10px; }
     .brand-icon {
@@ -53,158 +42,362 @@
       display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;
     }
     .brand-title { font-size: 18px; font-weight: 800; color: var(--text); }
-    .brand-sub { font-size: 12px; color: var(--text-muted); font-weight: 500; }
-    .top-actions { display: flex; gap: 6px; align-items: center; }
-    .btn-apk-top {
-      background: #059669; color: white; border: none; border-radius: 16px;
-      padding: 5px 10px; font-size: 11.5px; font-weight: 700; cursor: pointer; text-decoration: none;
-    }
-    .lang-pill {
-      background: var(--primary); color: white; border-radius: 16px;
-      padding: 4px 10px; font-size: 11.5px; font-weight: 700; border: none; cursor: pointer;
+    .brand-sub { font-size: 12px; color: var(--muted); font-weight: 500; }
+    .lang-btn {
+      background: var(--primary); color: white; border: none; border-radius: 20px;
+      padding: 6px 14px; font-size: 12px; font-weight: 800; cursor: pointer;
     }
 
-    /* CUISINE FILTER TABS */
-    .cuisine-bar { display: flex; gap: 8px; padding: 6px 18px 12px 18px; }
-    .cuisine-btn {
+    /* Cuisine Selector */
+    .cuisine-bar { display: flex; gap: 8px; padding: 6px 16px 12px 16px; }
+    .c-btn {
       flex: 1; padding: 8px; border-radius: 20px; border: none; font-size: 12.5px;
-      font-weight: 700; background: #eee5dc; color: #665e58; cursor: pointer;
+      font-weight: 700; background: var(--pill-bg); color: #665e58; cursor: pointer;
     }
-    .cuisine-btn.active { background: #fff; color: var(--text); box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+    .c-btn.active { background: #fff; color: var(--text); box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
 
-    /* TAB CONTENT WRAPPER */
-    .tab-view { display: none; padding: 0 16px 20px 16px; }
-    .tab-view.active { display: block; }
-
-    /* COMPACT DOWNLOAD BANNER (SIRF FIRST SCREEN PAR) */
-    .apk-notice {
-      background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 16px;
-      padding: 10px 14px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;
+    /* Compact APK Box (Only on Tab 1) */
+    .apk-banner {
+      background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 14px;
+      padding: 10px 14px; margin: 0 16px 12px 16px; display: flex; align-items: center; justify-content: space-between;
     }
-    .apk-notice-text { font-size: 12px; color: #065f46; font-weight: 600; }
-    .apk-notice-btn {
-      background: #059669; color: white; border: none; border-radius: 12px;
-      padding: 6px 12px; font-size: 11.5px; font-weight: 700; cursor: pointer; text-decoration: none;
+    .apk-text { font-size: 12px; color: #065f46; font-weight: 600; }
+    .apk-btn {
+      background: #059669; color: white; border-radius: 10px; padding: 5px 10px;
+      font-size: 11.5px; font-weight: 700; text-decoration: none;
     }
 
-    /* ORANGE HERO BANNERS */
-    .hero-banner {
+    /* Views */
+    .tab-content { display: none; padding: 0 16px; }
+    .tab-content.active { display: block; }
+
+    /* Hero Banner */
+    .hero {
       background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-      color: white; border-radius: 20px; padding: 18px; margin-bottom: 14px; position: relative;
+      color: white; border-radius: 18px; padding: 18px; margin-bottom: 14px; position: relative;
     }
     .hero-tag { font-size: 12px; color: #fed7aa; font-weight: 700; margin-bottom: 4px; }
-    .hero-title { font-size: 20px; font-weight: 800; }
-    .hero-sub { font-size: 12px; opacity: 0.9; margin-top: 6px; }
-    .hero-btn {
-      position: absolute; right: 16px; top: 22px; background: rgba(255,255,255,0.22);
-      border: none; color: white; border-radius: 14px; padding: 6px 12px; font-size: 12px; font-weight: 700; cursor: pointer;
+    .hero-title { font-size: 19px; font-weight: 800; }
+    .hero-sub { font-size: 12px; opacity: 0.92; margin-top: 4px; }
+    .hero-action {
+      position: absolute; right: 14px; top: 20px; background: rgba(255,255,255,0.25);
+      border: none; color: white; border-radius: 12px; padding: 6px 12px; font-size: 12px; font-weight: 700; cursor: pointer;
     }
 
-    /* DAY PILLS */
-    .day-selector { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 4px; }
-    .day-pill {
-      flex: 1; min-width: 50px; background: #fff; border: 1px solid var(--border);
-      border-radius: 16px; padding: 8px 4px; text-align: center; font-size: 12px; font-weight: 700; color: #555; cursor: pointer;
+    /* Day Selector */
+    .days-row { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; }
+    .d-pill {
+      flex: 1; min-width: 48px; background: #fff; border: 1px solid var(--border);
+      border-radius: 14px; padding: 8px 2px; text-align: center; font-size: 12px; font-weight: 700; cursor: pointer;
     }
-    .day-pill.active { background: var(--primary); color: white; border-color: var(--primary); }
+    .d-pill.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-    /* RECIPE CARDS */
+    /* Cards */
     .card {
-      background: var(--card-bg); border-radius: 18px; padding: 15px; margin-bottom: 12px;
-      border: 1px solid var(--border); box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      background: var(--card); border-radius: 16px; padding: 14px; margin-bottom: 12px;
+      border: 1px solid var(--border); box-shadow: 0 2px 6px rgba(0,0,0,0.02);
     }
-    .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-    .meal-tag { background: #fef3c7; color: #b45309; padding: 4px 10px; border-radius: 10px; font-size: 11.5px; font-weight: 700; }
-    .refresh-icon { background: none; border: none; font-size: 16px; cursor: pointer; color: var(--primary); }
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .card-tag { background: #fef3c7; color: #b45309; padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; }
     .card-body { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
-    .dish-img {
-      width: 52px; height: 52px; background: #fff4ed; border-radius: 14px;
+    .dish-ico {
+      width: 52px; height: 52px; background: #fff5ed; border-radius: 14px;
       display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0;
     }
-    .dish-name { font-size: 15.5px; font-weight: 800; color: var(--text); }
-    .dish-desc { font-size: 12px; color: var(--text-muted); line-height: 1.35; margin-top: 3px; }
-    .card-foot {
+    .dish-h { font-size: 15px; font-weight: 800; color: var(--text); }
+    .dish-p { font-size: 12px; color: var(--muted); line-height: 1.35; margin-top: 2px; }
+    .card-bottom {
       display: flex; justify-content: space-between; align-items: center;
-      border-top: 1px dashed #f0e6dd; padding-top: 10px; font-size: 12px;
+      border-top: 1px dashed var(--border); padding-top: 10px; font-size: 12px;
     }
-    .link-steps { color: var(--primary); font-weight: 700; text-decoration: none; cursor: pointer; }
-
-    /* TAB 2: REGIONAL CUISINES */
-    .sub-toggle { display: flex; gap: 8px; margin-bottom: 12px; }
-    .sub-btn {
-      flex: 1; padding: 8px; border-radius: 14px; border: 1px solid var(--border);
-      background: white; font-size: 12.5px; font-weight: 700; cursor: pointer;
-    }
-    .sub-btn.active { background: #fff; border-color: var(--primary); color: var(--primary); }
-    .horizontal-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; }
-    .h-chip {
-      background: white; border: 1px solid var(--border); border-radius: 20px;
-      padding: 7px 14px; font-size: 12.5px; font-weight: 700; white-space: nowrap; cursor: pointer;
-    }
-    .h-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
-
-    /* TAB 3: PANTRY CHIPS & SEARCH */
-    .search-input {
-      width: 100%; padding: 10px 14px; border-radius: 14px; border: 1px solid var(--border);
-      margin-bottom: 10px; font-size: 13px; outline: none; background: #fff;
-    }
-    .pantry-cat { font-size: 13px; font-weight: 800; margin: 12px 0 8px 0; color: #443c39; }
-    .pantry-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-    .p-chip {
-      background: white; border: 1px solid var(--border); border-radius: 16px;
-      padding: 7px 12px; font-size: 12px; font-weight: 600; cursor: pointer;
-    }
-    .p-chip.checked { background: var(--primary); color: white; border-color: var(--primary); }
-    .badge-percent {
-      background: #fef3c7; color: #b45309; padding: 4px 8px; border-radius: 8px; font-size: 12px; font-weight: 800;
+    .btn-recipe-trigger {
+      color: var(--primary); font-weight: 800; background: none; border: none; cursor: pointer; font-size: 12px;
     }
 
-    /* TAB 4: WHEEL SECTION */
-    .wheel-wrap { display: flex; flex-direction: column; align-items: center; margin-top: 10px; position: relative; }
-    .pointer {
+    /* Sub Tabs & Chips */
+    .chips-slider { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; }
+    .chip {
+      background: #fff; border: 1px solid var(--border); border-radius: 20px;
+      padding: 7px 14px; font-size: 12px; font-weight: 700; white-space: nowrap; cursor: pointer;
+    }
+    .chip.active, .chip.checked { background: var(--primary); color: white; border-color: var(--primary); }
+
+    /* Pantry */
+    .pantry-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+
+    /* Spin Wheel */
+    .wheel-box { display: flex; flex-direction: column; align-items: center; position: relative; margin-top: 6px; }
+    .needle {
       width: 0; height: 0;
-      border-left: 14px solid transparent; border-right: 14px solid transparent;
-      border-top: 22px solid #b91c1c; margin-bottom: -12px; z-index: 10;
+      border-left: 12px solid transparent; border-right: 12px solid transparent;
+      border-top: 20px solid #dc2626; margin-bottom: -10px; z-index: 10;
     }
-    #spinCanvas {
-      border-radius: 50%; box-shadow: 0 4px 20px rgba(0,0,0,0.12);
-      background: #fdf6ec; display: block;
-    }
+    #spinCanvas { border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.12); }
     .spin-btn {
       width: 100%; background: var(--primary); color: white; border: none;
-      border-radius: 14px; padding: 14px; font-size: 16px; font-weight: 800; margin-top: 16px; cursor: pointer;
-      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
+      border-radius: 14px; padding: 14px; font-size: 16px; font-weight: 800; margin-top: 14px; cursor: pointer;
     }
 
-    /* STICKY BOTTOM NAV */
+    /* Sticky Bottom Nav (Always Fixed & Centered) */
     .bottom-bar {
-      position: fixed; bottom: 0; width: 100%; max-width: 430px;
-      background: #fffcf8; border-top: 1px solid #eee4da;
-      display: flex; justify-content: space-around; padding: 8px 0 10px 0; z-index: 100;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      max-width: 430px;
+      margin: 0 auto;
+      background: #fffdfa;
+      border-top: 1px solid #eddcd0;
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 0 10px 0;
+      z-index: 9999;
     }
     .nav-btn {
       background: none; border: none; display: flex; flex-direction: column;
-      align-items: center; gap: 3px; color: #8c827c; font-size: 11px; font-weight: 600; cursor: pointer;
+      align-items: center; gap: 3px; color: #8c827c; font-size: 11px; font-weight: 700; cursor: pointer; width: 25%;
     }
-    .nav-btn.active { color: var(--primary); font-weight: 800; }
+    .nav-btn.active { color: var(--primary); }
     .nav-btn span:first-child { font-size: 19px; }
 
-    /* MODAL BOTTOM SHEET */
-    .modal {
+    /* Modal / Bottom Sheet */
+    .modal-overlay {
       display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-      z-index: 200; justify-content: center; align-items: flex-end;
+      z-index: 10000; justify-content: center; align-items: flex-end;
     }
-    .modal-sheet {
+    .modal-overlay.open { display: flex; }
+    .modal-box {
       background: white; width: 100%; max-width: 430px; border-radius: 24px 24px 0 0;
-      padding: 22px 18px; max-height: 85vh; overflow-y: auto; position: relative; animation: slideUp 0.22s ease-out;
+      padding: 20px 18px; max-height: 85vh; overflow-y: auto; position: relative; animation: slideUp 0.2s ease-out;
     }
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
     .modal-close {
       position: absolute; right: 16px; top: 16px; width: 32px; height: 32px;
-      border-radius: 50%; border: none; background: #f3ede7; font-size: 15px; cursor: pointer;
+      border-radius: 50%; border: none; background: #f1eae2; font-size: 16px; cursor: pointer;
     }
-    .step-box {
-      display: flex; gap: 12px; background: #fffdfa; border: 1px solid var(--border);
+    .badge-row { display: flex; gap: 8px; margin: 12px 0; }
+    .badge-item { padding: 5px 10px; border-radius: 8px; font-size: 11.5px; font-weight: 700; }
+    .step-card {
+      display: flex; gap: 10px; background: #fffcf9; border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px; margin-bottom: 8px;
+    }
+    .step-idx {
+      width: 24px; height: 24px; border-radius: 50%; background: var(--primary);
+      color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="viewport">
+
+  <!-- TOP HEADER -->
+  <div class="top-bar">
+    <div class="brand">
+      <div class="brand-icon">🍴</div>
+      <div>
+        <div class="brand-title" id="txt-app-title">आज क्या बनाएं</div>
+        <div class="brand-sub" id="txt-app-sub">आज क्या पकाएं?</div>
+      </div>
+    </div>
+    <button class="lang-btn" id="langToggleBtn" onclick="toggleLanguage()">EN / हिन्दी</button>
+  </div>
+
+  <!-- CUISINE FILTER -->
+  <div class="cuisine-bar">
+    <button class="c-btn active" id="btn-c-desi" onclick="setCuisine('desi', this)">🇮🇳 भारतीय (देसी)</button>
+    <button class="c-btn" id="btn-c-world" onclick="setCuisine('world', this)">🌍 कॉन्टिनेंटल (विदेशी)</button>
+  </div>
+
+  <!-- TAB 1: MEAL PLANNER -->
+  <div class="tab-content active" id="tab-plan">
+    <div class="apk-banner">
+      <div class="apk-text">📲 बिना इंटरनेट के ऐप उपलब्ध है</div>
+      <a href="#" class="apk-btn">APK (v1.0)</a>
+    </div>
+
+    <div class="hero">
+      <div class="hero-tag" id="txt-hero-tag">✨ आज का भोजन मेनू</div>
+      <div class="hero-title" id="txt-day-title">बुधवार • भारतीय (देसी)</div>
+      <div class="hero-sub" id="txt-hero-sub">कुल 3 भोजन • ~780 kcal • 75 मिनट</div>
+      <button class="hero-action" onclick="rerollWholeDay()">🔀 बदलें</button>
+    </div>
+
+    <div class="days-row">
+      <div class="d-pill" onclick="selectDay(this, 'सोमवार', 'Monday')">सोम</div>
+      <div class="d-pill" onclick="selectDay(this, 'मंगलवार', 'Tuesday')">मंगल</div>
+      <div class="d-pill active" onclick="selectDay(this, 'बुधवार', 'Wednesday')">बुध •</div>
+      <div class="d-pill" onclick="selectDay(this, 'गुरुवार', 'Thursday')">गुरु</div>
+      <div class="d-pill" onclick="selectDay(this, 'शुक्रवार', 'Friday')">शुक्र</div>
+      <div class="d-pill" onclick="selectDay(this, 'शनिवार', 'Saturday')">शनि</div>
+    </div>
+
+    <!-- Breakfast Card -->
+    <div class="card">
+      <div class="card-top">
+        <span class="card-tag">🌅 <span class="tag-breakfast">नाश्ता</span></span>
+        <button onclick="rerollItem('b')" style="border:none; background:none; font-size:16px; cursor:pointer; color:var(--primary);">🔄</button>
+      </div>
+      <div class="card-body">
+        <div class="dish-ico" id="b-icon">🥞</div>
+        <div>
+          <div class="dish-h" id="b-title">कुरकुरा बेसन चीला</div>
+          <div class="dish-p" id="b-desc">प्याज़, टमाटर और मसालों से भरपूर पौष्टिक बेसन चीला।</div>
+        </div>
+      </div>
+      <div class="card-bottom">
+        <span id="b-meta">⏱️ 20m • ~210 kcal</span>
+        <button class="btn-recipe-trigger" onclick="openRecipeByKey(currentMeals.b)">4-स्टेप रेसिपी देखें →</button>
+      </div>
+    </div>
+
+    <!-- Lunch Card -->
+    <div class="card">
+      <div class="card-top">
+        <span class="card-tag" style="background:#ffedd5; color:#c2410c;">☀️ <span class="tag-lunch">दोपहर का खाना</span></span>
+        <button onclick="rerollItem('l')" style="border:none; background:none; font-size:16px; cursor:pointer; color:var(--primary);">🔄</button>
+      </div>
+      <div class="card-body">
+        <div class="dish-ico" id="l-icon">🥬</div>
+        <div>
+          <div class="dish-h" id="l-title">पालक पनीर</div>
+          <div class="dish-desc" id="l-desc">ताज़ा हरी पालक की ग्रेवी और मसालों में पकाया गया स्वादिष्ट पनीर।</div>
+        </div>
+      </div>
+      <div class="card-bottom">
+        <span id="l-meta">⏱️ 30m • ~310 kcal</span>
+        <button class="btn-recipe-trigger" onclick="openRecipeByKey(currentMeals.l)">4-स्टेप रेसिपी देखें →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: FAMOUS CUISINES -->
+  <div class="tab-content" id="tab-famous">
+    <div class="hero">
+      <div class="hero-title">राज्य व विश्व प्रसिद्ध व्यंजन</div>
+      <div class="hero-sub">पारंपरिक और लोकप्रिय व्यंजन खोजें</div>
+    </div>
+
+    <div class="chips-slider" id="famous-chips">
+      <button class="chip active" onclick="switchFamousRegion('punjab', this)">🌾 पंजाब</button>
+      <button class="chip" onclick="switchFamousRegion('rajasthan', this)">🏰 राजस्थान</button>
+      <button class="chip" onclick="switchFamousRegion('gujarat', this)">🪁 गुजरात</button>
+      <button class="chip" onclick="switchFamousRegion('italy', this)">🍕 इटली</button>
+    </div>
+
+    <div class="card" style="display:flex; gap:12px; align-items:center;">
+      <div class="dish-ico" id="fam-hero-icon">🌾</div>
+      <div>
+        <div class="dish-h" id="fam-hero-title">पंजाब</div>
+        <div class="dish-p" id="fam-hero-desc">मक्खन, मलाई और ज़ायकेदार उत्तर भारतीय स्वाद।</div>
+      </div>
+    </div>
+
+    <div style="font-size:13px; font-weight:800; margin:14px 0 8px 0;">🏆 शीर्ष प्रसिद्ध व्यंजन</div>
+    <div id="famous-dishes-box"></div>
+  </div>
+
+  <!-- TAB 3: PANTRY -->
+  <div class="tab-content" id="tab-pantry">
+    <div class="hero">
+      <div class="hero-title">आपकी रसोई में क्या है?</div>
+      <div class="hero-sub">घर पर मौजूद सामग्री चुनें और मैचिंग रेसिपी पाएं</div>
+    </div>
+
+    <div style="font-size:13px; font-weight:800; margin-bottom:8px; color:var(--primary);" id="pantry-selected-label">4 सामग्री चुनी गईं</div>
+    <div class="pantry-grid" id="pantry-chips-box"></div>
+
+    <div style="font-size:13px; font-weight:800; margin:14px 0 8px 0;">🍳 मैचिंग व्यंजन (Matching Dishes)</div>
+    <div id="pantry-recipes-box"></div>
+  </div>
+
+  <!-- TAB 4: SPIN WHEEL -->
+  <div class="tab-content" id="tab-wheel">
+    <div class="hero" style="padding:14px;">
+      <div class="hero-title" style="font-size:17px;">समझ नहीं आ रहा क्या बनाएं?</div>
+      <div class="hero-sub">पहिया घुमाएं और किस्मत पर छोड़ दें!</div>
+    </div>
+
+    <div class="wheel-box">
+      <div class="needle"></div>
+      <canvas id="spinCanvas" width="280" height="280"></canvas>
+      <button class="spin-btn" id="spinActionBtn" onclick="spinWheel()">🎲 पहिया घुमाएं</button>
+    </div>
+
+    <div class="card" style="margin-top:16px; text-align:center;">
+      <span class="card-tag" style="display:inline-block; margin-bottom:8px;">✨ चुना गया व्यंजन</span>
+      <div class="dish-ico" style="margin:0 auto 8px auto;" id="wheel-res-icon">🍲</div>
+      <div class="dish-h" id="wheel-res-title">दाल तड़का और जीरा राइस</div>
+      <div class="dish-p" id="wheel-res-desc">लहसुन, जीरा और हींग के तड़के वाली अरहर दाल।</div>
+      <button class="spin-btn" style="padding:10px; margin-top:10px; font-size:13px;" id="wheel-res-btn" onclick="openRecipeByKey('dal_tadka')">4-स्टेप रेसिपी देखें</button>
+    </div>
+  </div>
+
+  <!-- STICKY BOTTOM NAV BAR (100% FIXED & VISIBLE) -->
+  <nav class="bottom-bar">
+    <button class="nav-btn active" onclick="navigateTab('tab-plan', this)">
+      <span>📅</span>
+      <span class="lbl-plan">भोजन योजना</span>
+    </button>
+    <button class="nav-btn" onclick="navigateTab('tab-famous', this)">
+      <span>🌍</span>
+      <span class="lbl-famous">प्रसिद्ध स्वाद</span>
+    </button>
+    <button class="nav-btn" onclick="navigateTab('tab-pantry', this)">
+      <span>🗄️</span>
+      <span class="lbl-pantry">रसोई सामग्री</span>
+    </button>
+    <button class="nav-btn" onclick="navigateTab('tab-wheel', this)">
+      <span>🎯</span>
+      <span class="lbl-wheel">पहिया घुमाएं</span>
+    </button>
+  </nav>
+
+</div>
+
+<!-- RECIPE BOTTOM SHEET MODAL -->
+<div class="modal-overlay" id="recipeModal" onclick="closeOnBackdrop(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div style="font-size:19px; font-weight:800; color:var(--text);" id="m-title">दाल तड़का</div>
+    <div style="font-size:12.5px; color:var(--muted); margin-bottom:10px;" id="m-sub">Dal Tadka with Jeera Rice</div>
+
+    <div class="badge-row">
+      <span class="badge-item" style="background:#e0f2fe; color:#0369a1;" id="m-prep">⏱️ तैयारी: 10m</span>
+      <span class="badge-item" style="background:#ffedd5; color:#c2410c;" id="m-cook">🔥 पकाना: 20m</span>
+      <span class="badge-item" style="background:#ffedd5; color:#c2410c;" id="m-cal">🔥 ~290 kcal</span>
+    </div>
+
+    <div style="font-size:13.5px; font-weight:800; margin-bottom:8px;">ज़रूरी सामग्री (Ingredients)</div>
+    <div class="pantry-grid" id="m-ingredients" style="margin-bottom:14px;"></div>
+
+    <div style="font-size:13.5px; font-weight:800; margin-bottom:8px;">त्वरित 4-स्टेप्स विधि</div>
+    <div id="m-steps"></div>
+  </div>
+</div>
+
+<script>
+  // 1. DATA STORE
+  let currentLang = 'hi';
+  const RECIPES_DATA = {
+    'chilla': {
+      hi: { title: 'कुरकुरा बेसन चीला', desc: 'प्याज़, टमाटर और मसालों से भरपूर पौष्टिक बेसन चीला।', prep: '10m', cook: '10m', cal: '210 kcal', ings: ['बेसन', 'प्याज़', 'टमाटर', 'हरी मिर्च', 'मसाले'], steps: ['बेसन और पानी मिलाकर चिकना घोल बनाएं।', 'बारीक कटी प्याज़, टमाटर और मसाले घोल में मिलाएं।', 'गरम तवे पर पतला फैलाएं।', 'हल्का तेल लगाकर दोनों तरफ से कुरकुरा सेकें।'] },
+      en: { title: 'Crispy Besan Chilla', desc: 'Nutritious savory gram flour pancakes loaded with onion and spices.', prep: '10m', cook: '10m', cal: '210 kcal', ings: ['Besan', 'Onion', 'Tomato', 'Green Chili', 'Spices'], steps: ['Mix besan and water to form a smooth batter.', 'Add chopped onions, tomatoes, and spices.', 'Spread thin on a heated non-stick pan.', 'Drizzle oil and cook until crisp on both sides.'] },
+      icon: '🥞'
+    },
+    'palak_paneer': {
+      hi: { title: 'पालक पनीर', desc: 'ताज़ा हरी पालक की ग्रेवी और मसालों में पकाया गया स्वादिष्ट पनीर।', prep: '15m', cook: '15m', cal: '310 kcal', ings: ['पालक', 'पनीर', 'प्याज़', 'टमाटर', 'मक्खन'], steps: ['पालक को 2 मिनट उबालकर प्यूरी बना लें।', 'कड़ाही में घी गर्म करके प्याज़ और टमाटर भूनें।', 'पालक प्यूरी और पनीर डालकर 5 मिनट पकाएं।', 'गरम मसाला और मक्खन डालकर परोसें।'] },
+      en: { title: 'Palak Paneer', desc: 'Cottage cheese cubes simmered in smooth seasoned spinach gravy.', prep: '15m', cook: '15m', cal: '310 kcal', ings: ['Spinach', 'Paneer', 'Onion', 'Tomato', 'Butter'], steps: ['Blanch spinach and blend into a fine puree.', 'Saute onions, garlic, and tomatoes in ghee.', 'Add pureed spinach and fresh paneer cubes.', 'Finish with cream and garam masala.'] },
+      icon: '🥬'
+    },
+    'dal_tadka': {
+      hi: { title: 'दाल तड़का और जीरा राइस', desc: 'लहसुन, जीरा और हींग के तड़के वाली अरहर दाल और सुगंधित जीरा राइस।', prep: '10m', cook: '20m', cal: '290 kcal', ings: ['अरहर दाल', 'चावल', 'प्याज़', 'टमाटर', 'लहसुन', 'घी'], steps: ['दाल को हल्दी और नमक के साथ कुकर में 3 सीटी तक पकाएं।', 'तड़का पैन में घी, जीरा और लहसुन सुनहरा भूनें।', 'कटा टमाटर और मिर्च डालकर 2 मिनट पकाएं।', 'तड़का दाल में मिलाएं और जीरा राइस के साथ परोसें।'] },
+      en: { title: 'Dal Tadka with Jeera Rice', desc: 'Tempered yellow lentils served with fragrant cumin rice.', prep: '10m', cook: '20m', cal: '290 kcal', ings: ['Yellow Dal', 'Rice', 'Onion', 'Tomato', 'Garlic', 'Ghee'], steps: ['Pressure cook lentils with turmeric and salt.', 'Heat ghee, add cumin seeds and minced garlic.', 'Saute tomatoes and dried red chillies.', 'Pour tadka over cooked dal and serve with rice.'] },
+      icon: '🍲'
+    },
+    'chole': {
+      hi: { title: 'अमृतसरी छोले', desc: 'चटपटे मसालेदार काबुली चने, गाढ़ी ग्रेवी के साथ।', prep: '15m', cook: '25m', cal: '360 kcal', ings: ['काबुली चने', 'प्याज़', 'टमाटर', 'अदरक-लहसुन'], steps: ['छोले को नमक के साथ कुकर में अच्छी तरह उबालें।', 'कड़ाही में तेल गरम करके खड़ा मसाला और प्याज़ भूनें।', 'टमाटर प्यूरी और छोले मसाला डालकर पकाएं।', 'उबले छोले मिलाकर धीमी आंच पर 10 मिनट गाढ़ा करें।'] },
+      en: { title: 'Amritsari Chole', desc: 'Zesty spiced chickpeas cooked in rich dark onion-tomato gravy.', prep: '15m', cook: '25m', cal: '360 kcal', ings: ['Chickpeas', 'Onion', 'Tomato', 'Ginger-Garlic'], steps: ['Boil chickpeas until soft and tender.', 'Brown onions and ginger-garlic in hot oil.', 'Add tomato puree and chole masala powder.px solid var(--border);
       border-radius: 14px; padding: 12px; margin-bottom: 8px;
     }
     .step-badge {
