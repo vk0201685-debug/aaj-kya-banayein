@@ -307,6 +307,167 @@ const APP_DATA = {
         "रातभर भीगे छोले में चायपत्ती की पोटली और नमक डालकर 6 सीटी तक एकदम नरम होने तक उबालें।",
         "कड़ाही में तेल गरम करके प्याज़ का पेस्ट गहरा सुनहरा भूनें; फिर अदरक-लहसुन पेस्ट और हरी मिर्च डालें।",
         "टमाटर प्यूरी और छोले मसाला डालकर मसाला गाढ़ा और तेल छोड़ने तक अच्छी तरह भूनें।",
+        "उबले छोलेs: 15,
+      cookTimeMinutes: 25,
+      caloriesApprox: 340,
+      emoji: "🫘",
+      tags: ["North Indian Classic", "High Protein", "Sunday Special"],
+      requiredIngredientIds: ["rajma", "rice", "onion", "tomato", "ginger_garlic", "garam_masala", "olive_oil"],
+      stepsEn: [
+        "Pressure cook soaked rajma with salt and whole spices for 5-6 whistles until completely soft.",
+        "In a kadai, heat oil and brown the finely minced onions; add ginger-garlic paste and cook till fragrant.",
+        "Stir in tomato puree, red chili, turmeric, and coriander powder; fry vigorously until oil leaves the sides.",
+        "Add boiled rajma with its broth, mash a few beans with the ladle to thicken the gravy, and simmer for 10 minutes."
+      ],
+      stepsHi: [
+        "रातभर भीगे राजमा को नमक डालकर कुकर में 5-6 सीटी आने तक पूरी तरह गलने तक उबालें।",
+        "कड़ाही में तेल गरम करके बारीक प्याज़ को सुनहरा भूनें; फिर अदरक-लहसुन पेस्ट डालकर खुशबू आने तक भूनें।",
+        "टमाटर की प्यूरी, हल्दी, लाल मिर्च और धनिया पाउडर डालकर मसाला तेल छोड़ने तक अच्छी तरह भूनें।",
+        "उबले राजमा पानी सहित डालें, थोड़े दाने करछी से मैश करें ताकि तरी गाढ़ी बने, 10 मिनट धीमी आंच पर पकाएं।"
+      ],
+      chefTipEn: "Lightly mashing 15% of boiled kidney beans against the pan side gives that authentic dhaba thickness.",
+      chefTipHi: "थोड़े से राजमा को करछी से दबाकर मैश कर दें, इससे तरी बिना किसी मिलावट के एकदम गाढ़ी और स्वादिष्ट बनेगी।"
+    },
+    {
+      id: "ind_dal_tadka",
+      nameEn: "Dal Tadka with Jeera Rice",
+      nameHi: "दाल तड़का और जीरा राइस",
+      descriptionEn: "Creamy yellow lentils finished with a smoking ghee tempering of cumin, garlic, and dried chilies.",
+      descriptionHi: "लहसुन, जीरा और हींग के तड़के वाली अरहर दाल और सुगंधित जीरा राइस।",
+      cuisine: "INDIAN",
+      mealTypes: ["LUNCH", "DINNER"],
+      prepTimeMinutes: 10,
+      cookTimeMinutes: 20,
+      caloriesApprox: 290,
+      emoji: "🍲",
+      tags: ["Everyday Comfort", "Healthy & Easy", "Pure Soul Food"],
+      requiredIngredientIds: ["toor_dal", "rice", "onion", "tomato", "ginger_garlic", "butter", "mustard_cumin"],
+      stepsEn: [
+        "Pressure cook rinsed yellow toor dal with turmeric and salt for 3 whistles until creamy.",
+        "In a small pan, melt 2 tbsp ghee/butter; add cumin seeds, sliced garlic, and dried red chilies until golden.",
+        "Toss in chopped onions and tomatoes; cook for 3 minutes with a pinch of garam masala.",
+        "Pour the smoking tadka sizzling over the boiled dal, cover immediately with lid to trap aroma, and serve with jeera rice."
+      ],
+      stepsHi: [
+        "अरहर दाल को हल्दी और नमक डालकर कुकर में 3 सीटी आने तक अच्छी तरह पकाएं।",
+        "तड़का पैन में देसी घी या मक्खन गरम करें; जीरा, बारीक कटा लहसुन और साबुत लाल मिर्च सुनहरी होने तक भूनें।",
+        "कटा प्याज़ और टमाटर डालकर 3 मिनट भूनें और चुटकी भर गरम मसाला मिलाएं।",
+        "उबलती हुई दाल पर गरमा-गरम छौंक लगाएं, ढक्कन तुरंत बंद करें ताकि खुशबू समा जाए, जीरा राइस के साथ परोसें।"
+      ],
+      chefTipEn: "Letting the garlic turn light golden-brown in ghee gives dal that signature restaurant smoky flavor.",
+      chefTipHi: "लहसुन को घी में हल्का सुनहरा होने तक भूनें, इससे दाल में रेस्टोरेंट जैसा असली स्वाद और खुशबू आती है।"
+    },
+    {
+      id: "ind_palak_paneer",
+      nameEn: "Creamy Palak Paneer",
+      nameHi: "पालक पनीर",
+      descriptionEn: "Vibrant blanched spinach puree gently spiced and studded with soft paneer cubes.",
+      descriptionHi: "ताज़ा हरी पालक की ग्रेवी और मसालों में पकाया गया स्वादिष्ट व पौष्टिक पनीर।",
+      cuisine: "INDIAN",
+      mealTypes: ["LUNCH", "DINNER"],
+      prepTimeMinutes: 15,
+      cookTimeMinutes: 15,
+      caloriesApprox: 310,
+      emoji: "🥬",
+      tags: ["Nutritious", "Iron Rich", "Classic Green"],
+      requiredIngredientIds: ["spinach", "paneer", "onion", "tomato", "ginger_garlic", "butter", "turmeric_chili"],
+      stepsEn: [
+        "Blanch fresh spinach leaves in boiling water for 2 minutes, then instantly plunge into ice water to retain bright green color.",
+        "Blend blanched spinach with 1 green chili and ginger into a smooth, silky green puree.",
+        "Heat butter in a pan, sauté onions, garlic, and tomato with mild cumin and turmeric powder.",
+        "Pour in the spinach puree, add paneer cubes with salt and garam masala, and simmer on gentle heat for 4 minutes."
+      ],
+      stepsHi: [
+        "पालक को उबलते पानी में 2 मिनट ब्लांच करें, फिर तुरंत ठंडे पानी में डालें ताकि हरा रंग बरकरार रहे।",
+        "पालक, हरी मिर्च और अदरक को मिक्सी में पीसकर स्मूथ हरी प्यूरी बना लें।",
+        "पैन में मक्खन गरम करें, बारीक प्याज़, लहसुन और टमाटर को जीरा व हल्दी के साथ भूनें।",
+        "पालक प्यूरी और पनीर के टुकड़े डालें, स्वादानुसार नमक व गरम मसाला मिलाकर 4 मिनट धीमी आंच पर पकाएं।"
+      ],
+      chefTipEn: "Never cover the pan while simmering spinach puree, or it will lose its emerald vibrant hue.",
+      chefTipHi: "पालक की ग्रेवी पकाते समय पैन को ढके नहीं, खुला पकाने से हरा रंग खूबसूरत और चमकदार बना रहता है।"
+    },
+    {
+      id: "ind_besan_chilla",
+      nameEn: "Crispy Besan Chilla",
+      nameHi: "कुरकुरा बेसन चीला",
+      descriptionEn: "Savory spiced gram flour crepes packed with chopped onions, tomatoes, and green chilies.",
+      descriptionHi: "प्याज़, टमाटर और मसालों से भरपूर पौष्टिक, झटपट और स्वादिष्ट बेसन चीला।",
+      cuisine: "INDIAN",
+      mealTypes: ["BREAKFAST", "DINNER"],
+      prepTimeMinutes: 10,
+      cookTimeMinutes: 10,
+      caloriesApprox: 210,
+      emoji: "🥞",
+      tags: ["Quick 15m", "High Protein", "Weight-Loss Friendly"],
+      requiredIngredientIds: ["besan", "onion", "tomato", "green_chili", "turmeric_chili", "olive_oil"],
+      stepsEn: [
+        "Whisk gram flour (besan) with water into a smooth, pourable pancake-style batter without lumps.",
+        "Mix in finely diced onions, juicy tomatoes, minced green chilies, ajwain, turmeric, and salt.",
+        "Heat a non-stick tawa, ladle the batter, and spread evenly into a thin round circle.",
+        "Drizzle a few drops of oil around edges, flip when bubbles form, and cook both sides crisp and golden."
+      ],
+      stepsHi: [
+        "एक बर्तन में बेसन, थोड़ा पानी मिलाकर चिकना और बिना गुठली वाला घोल तैयार करें।",
+        "घोल में बारीक कटा प्याज़, टमाटर, हरी मिर्च, अजवाइन, हल्दी और नमक अच्छी तरह मिलाएं।",
+        "तवा गर्म करके एक कलछी घोल डालें और गोल आकार में पतला फैलाएं।",
+        "किनारों पर हल्का तेल लगाएं, नीचे से सिकने पर पलटें और दोनों तरफ से कुरकुरा होने तक सेकें।"
+      ],
+      chefTipEn: "Adding a pinch of ajwain (carom seeds) aids digestion and provides authentic street-style fragrance.",
+      chefTipHi: "घोल में थोड़ी सी अजवाइन मसलकर डालें, इससे पाचन भी अच्छा रहता है और स्वाद लाजवाब आता है।"
+    },
+    {
+      id: "ind_pav_bhaji",
+      nameEn: "Mumbai Style Pav Bhaji",
+      nameHi: "मुंबई पाव भाजी",
+      descriptionEn: "Spicy mashed mixed vegetable mash loaded with butter, served with toasted buttery pav buns.",
+      descriptionHi: "मक्खन और खास मसालों में घुली मिली-जुली सब्जियां और गरमा-गरम पाव।",
+      cuisine: "INDIAN",
+      mealTypes: ["LUNCH", "DINNER"],
+      prepTimeMinutes: 15,
+      cookTimeMinutes: 20,
+      caloriesApprox: 410,
+      emoji: "🥖",
+      tags: ["Street Food", "Buttery Indulgence", "Family Feast"],
+      requiredIngredientIds: ["potato", "peas", "capsicum", "tomato", "onion", "butter", "bread"],
+      stepsEn: [
+        "Boil potatoes, peas, and carrots; mash them thoroughly with a potato masher until semi-smooth.",
+        "Melt generous butter on a flat tawa or pan; sauté finely diced onions, capsicum, and ginger-garlic paste.",
+        "Add tomatoes and 2 tbsp pav bhaji masala, cook till mushy, then combine with mashed vegetables and water.",
+        "Simmer while mashing repeatedly, top with a heavy slab of butter, and serve with butter-toasted bread/pav."
+      ],
+      stepsHi: [
+        "आलू, मटर और गाजर को कुकर में उबालें और मैशर से अच्छी तरह मैश कर लें।",
+        "तवे या कड़ाही में भरपूर मक्खन पिघलाएं; बारीक कटी शिमला मिर्च, प्याज़ और अदरक-लहसुन भूनें।",
+        "टमाटर और पाव भाजी मसाला डालकर भूनें, फिर मैश की हुई सब्जियां और थोड़ा पानी मिलाकर पकाएं।",
+        "करछी से लगातार दबाते हुए 8 मिनट उबालें, ऊपर से मक्खन का टुकड़ा रखें और मक्खन में सिके पाव/ब्रेड के साथ परोसें।"
+      ],
+      chefTipEn: "Finely chopped green capsicum fried in butter right at the start gives that iconic Juhu Beach aroma.",
+      chefTipHi: "शुरुआत में ही मक्खन में बारीक शिमला मिर्च भूनें, यही मुंबई चौपाटी वाले स्वाद का असली राज़ है।"
+    },
+    {
+      id: "ind_chole_masala",
+      nameEn: "Amritsari Chole",
+      nameHi: "अमृतसरी छोले",
+      descriptionEn: "Robust, dark spiced chickpeas cooked with aromatic spices, onions, and tangy amchur.",
+      descriptionHi: "अनारदाना, गरम मसाले और चटपटी तरी में बने गाढ़े व स्वादिष्ट अमृतसरी छोले।",
+      cuisine: "INDIAN",
+      mealTypes: ["LUNCH", "DINNER"],
+      prepTimeMinutes: 15,
+      cookTimeMinutes: 25,
+      caloriesApprox: 360,
+      emoji: "🧆",
+      tags: ["High Protein", "Festive", "Rich Gravy"],
+      requiredIngredientIds: ["chole", "onion", "tomato", "ginger_garlic", "garam_masala", "olive_oil"],
+      stepsEn: [
+        "Pressure cook soaked chickpeas with tea bag, bay leaf, and salt for 6 whistles until melt-in-mouth soft.",
+        "Heat oil in a heavy-bottom pot, brown onion paste slowly, then add ginger-garlic and green chili.",
+        "Add tomato puree and chole masala spices; fry on medium flame until thick and dark reddish-brown.",
+        "Tip in boiled chickpeas with liquid, simmer for 15 minutes to infuse flavours, and garnish with ginger juliennes."
+      ],
+      stepsHi: [
+        "रातभर भीगे छोले में चायपत्ती की पोटली और नमक डालकर 6 सीटी तक एकदम नरम होने तक उबालें।",
+        "कड़ाही में तेल गरम करके प्याज़ का पेस्ट गहरा सुनहरा भूनें; फिर अदरक-लहसुन पेस्ट और हरी मिर्च डालें।",
+        "टमाटर प्यूरी और छोले मसाला डालकर मसाला गाढ़ा और तेल छोड़ने तक अच्छी तरह भूनें।",
         "उबले छोले पानी सहित मिलाएं, 15 मिनट धीमी आंच पर पकाएं और ऊपर से लंबी कटी अदरक व धनिया से सजाएं।"
       ],
       chefTipEn: "Boiling chickpeas with a tea bag or dried amla gives the authentic dark color and earthy depth.",
